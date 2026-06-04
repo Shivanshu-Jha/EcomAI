@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -24,11 +25,7 @@ export default function Home() {
     })
 
     const data = await res.json();
-    if (Array.isArray(data.products)) {
-      setProducts(data.products);
-    } else {
-      setProducts([]); 
-    }
+    setProducts(data.products);
   }
 
   return (
@@ -103,9 +100,9 @@ export default function Home() {
                   <span className="text-lg font-semibold text-slate-900">
                     ${product.price?.toFixed(2) ?? "0.00"}
                   </span>
-                  <button className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700">
+                  <Link href={`/product/${product._id}`} className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700">
                     View
-                  </button>
+                  </Link>
                 </div>
               </div>
             </article>
