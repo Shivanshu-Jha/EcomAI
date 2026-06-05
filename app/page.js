@@ -10,7 +10,15 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/products")
       .then((res) => res.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProducts(data);
+        } else if (Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          setProducts([]);
+        }
+      })
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
@@ -25,7 +33,11 @@ export default function Home() {
     })
 
     const data = await res.json();
-    setProducts(data.products);
+    if (Array.isArray(data.products)) {
+      setProducts(data.products);
+    } else {
+      setProducts([]);
+    }
   }
 
   return (
